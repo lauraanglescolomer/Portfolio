@@ -14,12 +14,12 @@
   --bg:#f4f4f2;--ink:#111;--soft:#666;--line:#d8d8d4;--panel:#e9e9e5;--accent:#c8372d;
   /* Palette */
   --butter-yellow:#f1bf4b;--pink:#f4a7c7;--attic-window:#98c1e9;--apricot-jam:#f37a20;--matcha:#9ca362;--cherry:#c62a29;
-  --wisteria:#e9e5fe;--wisteria-fg:#3b3076;
+  --wisteria:#e9e5fe;--card-hover:#e7f5f9;--ease:cubic-bezier(.22,.8,.24,1);--wisteria-fg:#3b3076;
   /* Spacing */
   --gutter:clamp(20px,5.56vw,80px);
   box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#111;--ink:#f2f2ee;--soft:#a0a09a;--line:#2e2e2b;--panel:#1b1b19;--accent:#f4a7c7}}
-:root[data-theme="dark"]{--bg:#111;--ink:#f2f2ee;--soft:#a0a09a;--line:#2e2e2b;--panel:#1b1b19;--accent:#f4a7c7}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#111;--ink:#f2f2ee;--soft:#a0a09a;--line:#2e2e2b;--panel:#1b1b19;--accent:#f4a7c7;--card-hover:#1a2629}}
+:root[data-theme="dark"]{--bg:#111;--ink:#f2f2ee;--soft:#a0a09a;--line:#2e2e2b;--panel:#1b1b19;--accent:#f4a7c7;--card-hover:#1a2629}
 html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font:400 18px/1.42 Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
@@ -31,7 +31,12 @@ p{margin:0}
 /* ---------- Top bar + menu ---------- */
 .top{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;z-index:5;display:flex;justify-content:space-between;align-items:center;padding:18px var(--gutter);mix-blend-mode:difference;color:#fff;font-size:17px;line-height:1.6}
 .top a{text-decoration:none;font-weight:700}
-.menu-btn{background:none;border:0;color:inherit;font:inherit;font-weight:700;cursor:pointer;padding:0}
+.menu-btn{background:none;border:0;color:inherit;font:inherit;font-weight:700;cursor:pointer;padding:0;display:none}
+.nav{display:flex;gap:64px;list-style:none;margin:0;padding:0}
+.nav a{font-weight:300}
+@media (max-width:1024px){.nav{gap:32px}}
+.nav a:hover{text-decoration:underline}
+@media (max-width:700px){.nav{display:none}.menu-btn{display:block}}
 body.menu-open .top{mix-blend-mode:normal;color:var(--wisteria-fg)}
 body.menu-open .top a:focus-visible,body.menu-open .menu-btn:focus-visible{outline-color:var(--wisteria-fg)}
 .menu{position:fixed;inset:0;z-index:4;background:var(--wisteria);color:var(--wisteria-fg);display:none;flex-direction:column;justify-content:center;padding:0 var(--gutter)}
@@ -53,7 +58,7 @@ body.menu-open .top a:focus-visible,body.menu-open .menu-btn:focus-visible{outli
 @media (max-width:1024px){.name{font-size:24vw;line-height:.88;padding-bottom:.06em}.name .w{display:block}}
 .name .k1{letter-spacing:.005em}
 .name .k2{letter-spacing:-.04em}
-.hero-meta{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;padding:0 16px;color:var(--soft)}
+.hero-meta{display:flex;flex-wrap:wrap;gap:0 24px;padding:0 16px;margin:0;color:var(--soft);font-size:clamp(18px,1.53vw,22px);line-height:1.42}
 .d-star{width:clamp(80px,10.4vw,150px);height:clamp(80px,10.4vw,150px);top:23%;right:5.6%;color:var(--butter-yellow);transform:rotate(12deg)}
 .d-spark{width:clamp(28px,3.2vw,46px);height:clamp(28px,3.2vw,46px);top:50%;left:69%;color:var(--pink)}
 .d-squig{width:clamp(70px,7.6vw,110px);height:clamp(24px,2.6vw,37px);top:35%;left:8.3%;color:var(--attic-window)}
@@ -61,25 +66,36 @@ body.menu-open .top a:focus-visible,body.menu-open .menu-btn:focus-visible{outli
 
 /* ---------- Statement ---------- */
 .statement{position:relative;padding:120px 0;display:flex;flex-direction:column;gap:28px}
-.statement h2{font-size:clamp(2.2rem,5.35vw,4.8rem);font-weight:800;letter-spacing:-.03em;line-height:1.05;margin:0;max-width:860px}
+.statement h2{font-size:clamp(2.2rem,5.35vw,4.8rem);font-weight:800;letter-spacing:-.03em;line-height:1.05;margin:0;max-width:940px}
 .statement p{max-width:631px;color:var(--soft);line-height:1.6}
 .d-st{width:clamp(40px,5.56vw,80px);height:clamp(40px,5.56vw,80px);top:96px;right:40px;color:var(--matcha)}
 
 /* ---------- Sections ---------- */
-section{padding:80px 0;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:32px}
+section{padding:80px 0;display:flex;flex-direction:column;gap:32px}
 .sec{font-size:clamp(2.6rem,6.67vw,6rem);letter-spacing:-.04em;line-height:1;margin:0;font-weight:800}
+.title-deco{position:relative;align-self:flex-start}
+.d-cases{position:absolute;width:1.09em;height:1.09em;left:calc(100% + .56em);top:-.54em;color:var(--butter-yellow);font-size:clamp(2.6rem,6.67vw,6rem)}
 .sec-row{display:flex;align-items:center;gap:24px}
 .intro{color:var(--soft)}
 
 /* Cases */
 .cases{display:flex;flex-direction:column;gap:28px}
 .cases .intro{max-width:836px}
-.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:28px 24px}
-.case{display:flex;flex-direction:column;gap:12px}
-.vis{aspect-ratio:4/3;background:var(--panel);border-radius:10px;display:grid;place-items:center;color:var(--soft);padding:16px;text-align:center;transition:transform .2s}
-.case:hover .vis{transform:scale(.985)}
-.case-text{display:flex;flex-direction:column;gap:2px}
-.case-title{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:40px 24px}
+.vis{aspect-ratio:4/3;background:var(--panel);border-radius:10px;display:grid;place-items:center;color:var(--soft);padding:16px;text-align:center}
+.case{display:flex;flex-direction:column;gap:12px;padding:16px;border-radius:12px;background:var(--bg);color:inherit;text-decoration:none;transition:background-color .45s ease,transform .45s var(--ease)}
+.case .vis{overflow:hidden;position:relative}
+.case .vis span{transition:transform .6s var(--ease)}
+.case-body{display:flex;flex-direction:column;gap:12px}
+.case-text{display:flex;flex-direction:column}
+.cta{display:inline-flex;align-items:center;gap:6px;font-size:17px;font-weight:600;line-height:1.6;align-self:flex-start}
+.cta-label{background:linear-gradient(currentColor,currentColor) 0 100%/0 1.5px no-repeat;transition:background-size .45s var(--ease)}
+.cta svg{width:18px;height:18px;flex:none;transition:transform .45s var(--ease)}
+.case:hover,.case:focus-visible{background:var(--card-hover);transform:translateY(-4px)}
+.case:hover .vis span,.case:focus-visible .vis span{transform:scale(1.04)}
+.case:hover .cta-label,.case:focus-visible .cta-label{background-size:100% 1.5px}
+.case:hover .cta svg,.case:focus-visible .cta svg{transform:translate(4px,-4px) rotate(8deg)}
+.case:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
 .case h3,.extra h3{font-size:24px;letter-spacing:-.02em;line-height:1.3;margin:0;font-weight:700}
 .case p,.extra p{color:var(--soft)}
 .arrow{width:20px;height:12px;flex:none}
@@ -96,14 +112,17 @@ section{padding:80px 0;border-top:1px solid var(--line);display:flex;flex-direct
 .extras{display:flex;flex-direction:column;gap:40px}
 .extras .intro{max-width:520px}
 .grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:28px 24px}
-.extra{display:flex;flex-direction:column;gap:2px}
-.extra .vis{margin-bottom:12px}
+.extra{display:flex;flex-direction:column;gap:14px}
+.extra-text{display:flex;flex-direction:column;gap:8px}
+.extra-text div{display:flex;flex-direction:column;gap:2px}
 .tag{font-size:12px;font-weight:600;letter-spacing:.08em;line-height:1.4;text-transform:uppercase;color:var(--accent)}
-.more{font-size:17px;font-weight:600;line-height:1.6}
+.more{display:inline-flex;align-items:center;gap:6px;align-self:flex-start;font-size:17px;font-weight:600;line-height:1.6;text-decoration:none}
+.more:hover{text-decoration:underline}
+.more svg{width:16px;height:16px;flex:none}
 .d-extras{width:clamp(40px,4.5vw,65px);height:clamp(40px,4.5vw,65px);color:var(--cherry)}
 
 /* Contact */
-#contact{gap:8px}
+#contact{gap:8px;padding:120px 0}
 .contact-row{position:relative;display:flex;align-items:flex-end;padding-top:18px;padding-right:calc(clamp(120px,13.9vw,200px) + 24px)}
 .big-mail{font-size:clamp(1.4rem,4.45vw,4rem);font-weight:300;letter-spacing:-.01em;line-height:1.1;text-decoration:none;word-break:break-word}
 .big-mail:hover{text-decoration:underline}
@@ -124,7 +143,7 @@ footer{padding:28px 0 48px;color:var(--soft);display:flex;justify-content:space-
   .contact-row{flex-wrap:wrap;padding-right:0;gap:24px}
   .d-contact{position:static;margin-left:auto}
 }
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.vis{transition:none}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.case,.case .vis span,.cta-label,.cta svg{transition:none}.case:hover,.case:focus-visible{transform:none}.case:hover .vis span,.case:hover .cta svg,.case:focus-visible .vis span,.case:focus-visible .cta svg{transform:none}}
 </style>
 </head>
 <body>
@@ -137,7 +156,7 @@ footer{padding:28px 0 48px;color:var(--soft);display:flex;justify-content:space-
   </defs>
 </svg>
 
-<div class="top"><a href="#top">Laura Anglès</a><button class="menu-btn" id="mb" aria-expanded="false" aria-controls="menu">Menu</button></div>
+<div class="top"><a href="#top">Laura Anglès</a><nav aria-label="Sections"><ul class="nav"><li><a href="#cases">Cases</a></li><li><a href="#about">About</a></li><li><a href="#extras">Extras</a></li><li><a href="#contact">Contact</a></li></ul></nav><button class="menu-btn" id="mb" aria-expanded="false" aria-controls="menu">Menu</button></div>
 <nav class="menu" id="menu" aria-label="Main">
   <a href="#cases"><small>01</small>Cases</a>
   <a href="#about"><small>02</small>About</a>
@@ -154,26 +173,26 @@ footer{padding:28px 0 48px;color:var(--soft);display:flex;justify-content:space-
     <svg class="deco d-star6" focusable="false"><use href="#s6"/></svg>
   </div>
   <h1 class="name" aria-label="Laura Anglès"><span class="w" aria-hidden="true">Lau<span class="k1">r</span>a</span><span class="w" aria-hidden="true">Angl<span class="k2">è</span>s</span></h1>
-  <div class="hero-meta"><span>UX/UI designer, Design Systems</span><span>Based in Barcelona</span></div>
+  <p class="hero-meta"><span>UX/UI designer, Design Systems</span><span aria-hidden="true">·</span><span>Based in Barcelona</span></p>
 </header>
 
 <div class="statement">
   <svg class="deco d-st" aria-hidden="true" focusable="false"><use href="#sp"/></svg>
-  <h2>Great screens don't scale. Systems do.</h2>
-  <p>For years I've designed and evolved enterprise design systems, from Figma foundations and tokens to how components reach a CMS like Drupal and the people building pages with them.</p>
+  <h2>Great screens don't scale.<br>Systems do.</h2>
+  <p>xx</p>
 </div>
 
 <section id="cases">
-  <h2 class="sec"><u>Cases</u></h2>
+  <div class="title-deco"><h2 class="sec">Cases</h2><svg class="d-cases" aria-hidden="true" focusable="false"><use href="#s8"/></svg></div>
   <div class="cases">
     <p class="intro">Many brands, many websites, one shared language. Six decisions that make a system hold together.</p>
     <div class="grid-3">
-      <article class="case"><div class="vis">One component switching brands with a single mode</div><div class="case-text"><div class="case-title"><h3>Tokens and modes</h3><svg class="arrow" viewBox="0 0 20 12" aria-hidden="true"><path d="M0 6h18M13 1l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><p>Figma variables, multi-brand theming</p></div></article>
-      <article class="case"><div class="vis">Anatomy, states and configurations</div><div class="case-text"><div class="case-title"><h3>Component architecture</h3><svg class="arrow" viewBox="0 0 20 12" aria-hidden="true"><path d="M0 6h18M13 1l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><p>Variants, properties, Auto Layout</p></div></article>
-      <article class="case"><div class="vis">Figma next to Drupal</div><div class="case-text"><div class="case-title"><h3>From Figma to Drupal</h3><svg class="arrow" viewBox="0 0 20 12" aria-hidden="true"><path d="M0 6h18M13 1l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><p>Design and development handoff</p></div></article>
-      <article class="case"><div class="vis">Page composition diagram</div><div class="case-text"><div class="case-title"><h3>Composing pages</h3><svg class="arrow" viewBox="0 0 20 12" aria-hidden="true"><path d="M0 6h18M13 1l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><p>Templates, rules, flexibility</p></div></article>
-      <article class="case"><div class="vis">Content editor flow</div><div class="case-text"><div class="case-title"><h3>Back office for editors</h3><svg class="arrow" viewBox="0 0 20 12" aria-hidden="true"><path d="M0 6h18M13 1l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><p>CMS experience, UX</p></div></article>
-      <article class="case"><div class="vis">Contribution and versioning model</div><div class="case-text"><div class="case-title"><h3>Evolution and governance</h3><svg class="arrow" viewBox="0 0 20 12" aria-hidden="true"><path d="M0 6h18M13 1l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><p>Documentation, versioning, adoption</p></div></article>
+      <a class="case" href="#"><div class="vis"><span>One component switching brands with a single mode</span></div><div class="case-body"><div class="case-text"><h3>Tokens and modes</h3><p>Figma variables, multi-brand theming</p></div><span class="cta"><span class="cta-label">View case</span><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4.5 19.5C7.8 18.6 11.9 15.4 14.6 11.7C16.1 9.6 17.4 7.6 18.6 5.6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12.4 5.2C14.6 5.1 16.7 4.9 18.9 4.7C19.1 6.9 19.2 9 19 11.2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div></a>
+      <a class="case" href="#"><div class="vis"><span>Anatomy, states and configurations</span></div><div class="case-body"><div class="case-text"><h3>Component architecture</h3><p>Variants, properties, Auto Layout</p></div><span class="cta"><span class="cta-label">View case</span><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4.5 19.5C7.8 18.6 11.9 15.4 14.6 11.7C16.1 9.6 17.4 7.6 18.6 5.6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12.4 5.2C14.6 5.1 16.7 4.9 18.9 4.7C19.1 6.9 19.2 9 19 11.2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div></a>
+      <a class="case" href="#"><div class="vis"><span>Figma next to Drupal</span></div><div class="case-body"><div class="case-text"><h3>From Figma to Drupal</h3><p>Design and development handoff</p></div><span class="cta"><span class="cta-label">View case</span><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4.5 19.5C7.8 18.6 11.9 15.4 14.6 11.7C16.1 9.6 17.4 7.6 18.6 5.6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12.4 5.2C14.6 5.1 16.7 4.9 18.9 4.7C19.1 6.9 19.2 9 19 11.2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div></a>
+      <a class="case" href="#"><div class="vis"><span>Page composition diagram</span></div><div class="case-body"><div class="case-text"><h3>Composing pages</h3><p>Templates, rules, flexibility</p></div><span class="cta"><span class="cta-label">View case</span><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4.5 19.5C7.8 18.6 11.9 15.4 14.6 11.7C16.1 9.6 17.4 7.6 18.6 5.6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12.4 5.2C14.6 5.1 16.7 4.9 18.9 4.7C19.1 6.9 19.2 9 19 11.2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div></a>
+      <a class="case" href="#"><div class="vis"><span>Content editor flow</span></div><div class="case-body"><div class="case-text"><h3>Back office for editors</h3><p>CMS experience, UX</p></div><span class="cta"><span class="cta-label">View case</span><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4.5 19.5C7.8 18.6 11.9 15.4 14.6 11.7C16.1 9.6 17.4 7.6 18.6 5.6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12.4 5.2C14.6 5.1 16.7 4.9 18.9 4.7C19.1 6.9 19.2 9 19 11.2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div></a>
+      <a class="case" href="#"><div class="vis"><span>Contribution and versioning model</span></div><div class="case-body"><div class="case-text"><h3>Evolution and governance</h3><p>Documentation, versioning, adoption</p></div><span class="cta"><span class="cta-label">View case</span><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4.5 19.5C7.8 18.6 11.9 15.4 14.6 11.7C16.1 9.6 17.4 7.6 18.6 5.6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12.4 5.2C14.6 5.1 16.7 4.9 18.9 4.7C19.1 6.9 19.2 9 19 11.2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div></a>
     </div>
   </div>
 </section>
@@ -191,8 +210,8 @@ footer{padding:28px 0 48px;color:var(--soft);display:flex;justify-content:space-
   <div class="extras">
     <p class="intro">Things I've made along the way, outside project work.</p>
     <div class="grid-2">
-      <article class="extra"><div class="vis">[Preview of the variables playground]</div><span class="tag">Figma file</span><h3>Variables playground</h3><p>A file I built from scratch to explore Figma variables when they were a brand-new feature.</p><a class="more" href="#">Open in Figma [link]</a></article>
-      <article class="extra"><div class="vis">[Cover slide of the presentation]</div><span class="tag">Presentation</span><h3>Figma in the classroom</h3><p>A talk about Figma I gave in a master's class at BAU, Barcelona University Centre of Arts and Design</p><a class="more" href="#">See the slides [link]</a></article>
+      <article class="extra"><div class="vis">[Preview of the variables playground]</div><div class="extra-text"><span class="tag">Figma file</span><div><h3>Variables playground</h3><p>A file I built from scratch to explore Figma variables when they were a brand-new feature.</p></div></div><a class="more" href="#">Open in Figma [link]<svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M9 2.5h4.5V7M13.5 2.5 7 9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M11.5 9.5v3a1 1 0 0 1-1 1h-7a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1h3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a></article>
+      <article class="extra"><div class="vis">[Cover slide of the presentation]</div><div class="extra-text"><span class="tag">Presentation</span><div><h3>Figma in the classroom</h3><p>A talk about Figma I gave in a master's class at BAU, Barcelona University Centre of Arts and Design</p></div></div><a class="more" href="#">See the slides [link]<svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M9 2.5h4.5V7M13.5 2.5 7 9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M11.5 9.5v3a1 1 0 0 1-1 1h-7a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1h3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a></article>
     </div>
   </div>
 </section>
@@ -204,7 +223,7 @@ footer{padding:28px 0 48px;color:var(--soft);display:flex;justify-content:space-
     <svg class="deco-inline d-contact" aria-hidden="true" focusable="false"><use href="#s8"/></svg>
   </div>
 </section>
-<footer><span>© 2026 designed and developed by Laura Anglès</span><a href="#top">Back to top</a></footer>
+<footer><span>© 2026 <em>designed and developed by Laura Anglès</em></span><a href="#top">Back to top</a></footer>
 </main>
 
 <script>
